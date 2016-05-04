@@ -3,6 +3,8 @@ package com.example.myapplication;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -26,10 +28,13 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -39,40 +44,61 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LostThingDatainputActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    Calendar c = Calendar.getInstance();
+
     // UI references.
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
+    private EditText WhoLose;
+    private EditText WhatLose;
+    private EditText WhereLose;
+    private EditText WhenLose;
+    private EditText Connection;
+
+    // button
+    private Button submit;
+    private Button dateSelect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lost_thing_datainput);
-        // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        // Set up the login form.
+        WhoLose = (EditText) findViewById(R.id.WhoLose);
+        WhatLose = (EditText) findViewById(R.id.WhatLose);
+        WhereLose = (EditText) findViewById(R.id.WhereLose);
+        WhenLose = (EditText) findViewById(R.id.WhenLose);
+        Connection = (EditText) findViewById(R.id.Connection);
+
+        submit = (Button)findViewById(R.id.LostThingDataSubmit);
+        submit.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+        dateSelect = (Button)findViewById(R.id.DateSelect);
+        dateSelect.setOnClickListener(new OnClickListener() {
+
+            DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
+
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear,int dayOfMonth) {
+
+                    int cday = dayOfMonth;
+                    int cmonth = monthOfYear + 1;
+                    int cyear = year;
+
+                    WhenLose.setText(cmonth + "/" + cday + "/" + cyear);
+                }
+            };
+
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(LostThingDatainputActivity.this, d, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
     }
 
     /**
@@ -83,18 +109,40 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
     private void attemptLogin() {
 
         // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
+        WhoLose.setError(null);
+        WhatLose.setError(null);
+        WhereLose.setError(null);
+        WhenLose.setError(null);
+        Connection.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        String USER = WhoLose.getText().toString();
+        String ITEM = WhatLose.getText().toString();
+        String ADDRESS = WhereLose.getText().toString();
+        String DATE = WhenLose.getText().toString();
+        String PHONE = Connection.getText().toString();
 
         // Check for a valid password, if the user entered one.
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
+        if (TextUtils.isEmpty(USER)) {
+            WhoLose.setError(getString(R.string.error_field_required));
+        }
+
+        if (TextUtils.isEmpty(ITEM)) {
+            WhatLose.setError(getString(R.string.error_field_required));
+        }
+
+        if (TextUtils.isEmpty(ADDRESS)) {
+            WhereLose.setError(getString(R.string.error_field_required));
+        }
+
+        if (TextUtils.isEmpty(DATE)) {
+            WhenLose.setError(getString(R.string.error_field_required));
+        }
+
+        if (TextUtils.isEmpty(PHONE)) {
+            Connection.setError(getString(R.string.error_field_required));
         }
     }
 

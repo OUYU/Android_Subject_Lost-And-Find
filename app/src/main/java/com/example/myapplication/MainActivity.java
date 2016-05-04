@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,24 +39,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                String Input = UserInput.getText().toString();
-                String Password = UserPassword.getText().toString();
-
-                UserInput.setText("");
-                UserPassword.setText("");
-
-                if(Password.compareTo("985247") == 0)
-                {
-                    Intent Intent = new Intent();
-                    Intent.setClass(MainActivity.this, SystemIndexActivity.class);
-                    Intent.putExtra("USERNAME", Input);
-                    startActivity(Intent);
-                }
-                else
-                {
-                    Toast t = Toast.makeText(MainActivity.this,"帳號或密碼錯誤！",Toast.LENGTH_SHORT);
-                    t.show();
-                }
+                attemptLogin();
             }
         });
         register = (Button)findViewById(R.id.button2);
@@ -69,6 +53,53 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(Intent);
             }
         });
+    }
+
+    private void attemptLogin() {
+
+        int key = 0;
+
+        // Reset errors.
+        UserInput.setError(null);;
+        UserPassword.setError(null);
+
+        // Store values at the time of the login attempt.
+        String INPUT = UserInput.getText().toString();
+        String Password = UserPassword.getText().toString();
+
+        UserInput.setText("");
+        UserPassword.setText("");
+
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(INPUT)) {
+            UserInput.setError(getString(R.string.error_field_required));
+        }
+        else if(INPUT.compareTo("123") == 0)
+        {
+            if (TextUtils.isEmpty(Password)) {
+                UserPassword.setError(getString(R.string.error_field_required));
+            }
+            else
+            {
+                if(Password.compareTo("985247") == 0)
+                {
+                    Intent Intent = new Intent();
+                    Intent.setClass(MainActivity.this, SystemIndexActivity.class);
+                    Intent.putExtra("USERNAME", INPUT);
+                    startActivity(Intent);
+                }
+                else
+                {
+                    Toast t = Toast.makeText(MainActivity.this,"帳號或密碼錯誤！",Toast.LENGTH_SHORT);
+                    t.show();
+                }
+            }
+        }
+        else
+        {
+            Toast t = Toast.makeText(MainActivity.this,"帳號或密碼錯誤！",Toast.LENGTH_SHORT);
+            t.show();
+        }
     }
 
     @Override

@@ -21,6 +21,7 @@ public class SelectResultForPickedThingActivity extends FragmentActivity {
     private Button Select;
 
     String SELECTDATA;
+
     String USERNAME;
 
     @Override

@@ -24,7 +24,7 @@ import java.util.Calendar;
 /**
  * A login screen that offers login via email/password.
  */
-public class LostThingDatainputActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class PickedThingDatainputActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     Calendar c = Calendar.getInstance();
 
@@ -34,9 +34,10 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
     String PHONE;
 
     // UI references.
-    private EditText WhatLose;
-    private EditText WhereLose;
-    private EditText WhenLose;
+    private EditText WhoPicked;
+    private EditText WhatPicked;
+    private EditText WherePicked;
+    private EditText WhenPicked;
     private EditText Connection;
 
     String USERNAME;
@@ -48,7 +49,7 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lost_thing_datainput);
+        setContentView(R.layout.activity_picked_thing_datainput);
 
         Bundle params = getIntent().getExtras();
         if (params != null) {
@@ -56,12 +57,12 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
         }
 
         // Set up the login form.
-        WhatLose = (EditText) findViewById(R.id.WhatLose);
-        WhereLose = (EditText) findViewById(R.id.WhereLose);
-        WhenLose = (EditText) findViewById(R.id.WhenLose);
+        WhatPicked = (EditText) findViewById(R.id.WhatPicked);
+        WherePicked = (EditText) findViewById(R.id.WherePicked);
+        WhenPicked = (EditText) findViewById(R.id.WhenPicked);
         Connection = (EditText) findViewById(R.id.Connection);
 
-        submit = (Button)findViewById(R.id.LostThingDataSubmit);
+        submit = (Button)findViewById(R.id.PickedThingDataSubmit);
         submit.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,13 +82,13 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
                     int cmonth = monthOfYear + 1;
                     int cyear = year;
 
-                    WhenLose.setText(cmonth + "/" + cday + "/" + cyear);
+                    WhenPicked.setText(cmonth + "/" + cday + "/" + cyear);
                 }
             };
 
             @Override
             public void onClick(View view) {
-                new DatePickerDialog(LostThingDatainputActivity.this, d, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
+                new DatePickerDialog(PickedThingDatainputActivity.this, d, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
@@ -101,15 +102,15 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
     private void attemptLogin() {
 
         // Reset errors.
-        WhatLose.setError(null);
-        WhereLose.setError(null);
-        WhenLose.setError(null);
+        WhatPicked.setError(null);
+        WherePicked.setError(null);
+        WhenPicked.setError(null);
         Connection.setError(null);
 
         // Store values at the time of the login attempt.
-        ITEM = WhatLose.getText().toString();
-        ADDRESS = WhereLose.getText().toString();
-        DATE = WhenLose.getText().toString();
+        ITEM = WhatPicked.getText().toString();
+        ADDRESS = WherePicked.getText().toString();
+        DATE = WhenPicked.getText().toString();
         PHONE = Connection.getText().toString();
 
         int count = 0;
@@ -118,7 +119,7 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(ITEM)) {
-            WhatLose.setError(getString(R.string.error_field_required));
+            WhatPicked.setError(getString(R.string.error_field_required));
         }
         else
         {
@@ -126,7 +127,7 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
         }
 
         if (TextUtils.isEmpty(ADDRESS)) {
-            WhereLose.setError(getString(R.string.error_field_required));
+            WherePicked.setError(getString(R.string.error_field_required));
         }
         else
         {
@@ -134,7 +135,7 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
         }
 
         if (TextUtils.isEmpty(DATE)) {
-            WhenLose.setError(getString(R.string.error_field_required));
+            WhenPicked.setError(getString(R.string.error_field_required));
         }
         else
         {
@@ -151,19 +152,19 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
 
                 if(year >  NowYear)
                 {
-                    WhenLose.setError("資料輸入錯誤");
+                    WhenPicked.setError("資料輸入錯誤");
                 }
                 else
                 {
                     if(year == NowYear && month > NowMonth)
                     {
-                        WhenLose.setError("資料輸入錯誤");
+                        WhenPicked.setError("資料輸入錯誤");
                     }
                     else
                     {
                         if(year == NowYear && month == NowMonth && day >  NowDay)
                         {
-                            WhenLose.setError("資料輸入錯誤");
+                            WhenPicked.setError("資料輸入錯誤");
                         }
                         else
                         {
@@ -179,7 +180,7 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
                                             {
                                                 if(day < 0 || day > 29)
                                                 {
-                                                    WhenLose.setError("資料輸入錯誤");
+                                                    WhenPicked.setError("資料輸入錯誤");
                                                 }
                                                 else
                                                 {
@@ -190,7 +191,7 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
                                             {
                                                 if(day < 0 || day > 28)
                                                 {
-                                                    WhenLose.setError("資料輸入錯誤");
+                                                    WhenPicked.setError("資料輸入錯誤");
                                                 }
                                                 else
                                                 {
@@ -202,7 +203,7 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
                                         {
                                             if(day < 0 || day > 29)
                                             {
-                                                WhenLose.setError("資料輸入錯誤");
+                                                WhenPicked.setError("資料輸入錯誤");
                                             }
                                             else
                                             {
@@ -214,7 +215,7 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
                                     {
                                         if(day < 0 || day > 28)
                                         {
-                                            WhenLose.setError("資料輸入錯誤");
+                                            WhenPicked.setError("資料輸入錯誤");
                                         }
                                         else
                                         {
@@ -226,7 +227,7 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
                                 {
                                     if(day < 0 || day > 31)
                                     {
-                                        WhenLose.setError("資料輸入錯誤");
+                                        WhenPicked.setError("資料輸入錯誤");
                                     }
                                     else
                                     {
@@ -237,7 +238,7 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
                                 {
                                     if(day < 0 || day > 30)
                                     {
-                                        WhenLose.setError("資料輸入錯誤");
+                                        WhenPicked.setError("資料輸入錯誤");
                                     }
                                     else
                                     {
@@ -247,7 +248,7 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
                             }
                             else
                             {
-                                WhenLose.setError("資料輸入錯誤");
+                                WhenPicked.setError("資料輸入錯誤");
                             }
                         }
                     }
@@ -255,7 +256,7 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
             }
             else
             {
-                WhenLose.setError("資料輸入錯誤");
+                WhenPicked.setError("資料輸入錯誤");
             }
         }
 
@@ -270,12 +271,12 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
         if(count == 4)
         {
             Intent Intent = new Intent();
-            Intent.setClass(LostThingDatainputActivity.this, LostThingActivity.class);
-            User_DB UserData = new User_DB(LostThingDatainputActivity.this);
-            UserData.AddLostThing(USERNAME, ITEM, ADDRESS, DATE, PHONE);
+            Intent.setClass(PickedThingDatainputActivity.this, PickedThingActivity.class);
+            User_DB UserData = new User_DB(PickedThingDatainputActivity.this);
+            UserData.AddPickedThing(USERNAME, ITEM, ADDRESS, DATE, PHONE);
             Intent.putExtra("USERNAME", USERNAME);
             startActivity(Intent);
-            LostThingDatainputActivity.this.finish();
+            PickedThingDatainputActivity.this.finish();
         }
 
     }
@@ -286,10 +287,10 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
         if (keyCode == KeyEvent.KEYCODE_BACK )
         {
             Intent Intent = new Intent();
-            Intent.setClass(LostThingDatainputActivity.this, LostThingActivity.class);
+            Intent.setClass(PickedThingDatainputActivity.this, PickedThingActivity.class);
             Intent.putExtra("USERNAME", USERNAME);
             startActivity(Intent);
-            LostThingDatainputActivity.this.finish();
+            PickedThingDatainputActivity.this.finish();
         }
         return false;
     }

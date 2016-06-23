@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -34,10 +35,10 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/WhatLose"
+                    android:id="@+id/WhatPicked"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/WhatLose"
+                    android:hint="@string/WhatPicked"
                     android:imeActionId="@+id/login"
                     android:imeActionLabel="@string/Input"
                     android:imeOptions="actionUnspecified"
@@ -53,10 +54,10 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/WhereLose"
+                    android:id="@+id/WherePicked"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/WhereLose"
+                    android:hint="@string/WherePicked"
                     android:imeActionId="@+id/login"
                     android:imeActionLabel="@string/Input"
                     android:imeOptions="actionUnspecified"
@@ -72,17 +73,17 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/WhenLose"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/WhenLose"
-                    android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/Input"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="date"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textSize="28dp" />
+                android:id="@+id/WhenPicked"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/WhenPicked"
+                android:imeActionId="@+id/login"
+                android:imeActionLabel="@string/Input"
+                android:imeOptions="actionUnspecified"
+                android:inputType="date"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="28dp" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -115,7 +116,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                android:id="@+id/LostThingDataSubmit"
+                android:id="@+id/PickedThingDataSubmit"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -127,4 +128,4 @@
 
         </LinearLayout>
     </ScrollView>
-</RelativeLayout>
+</LinearLayout>

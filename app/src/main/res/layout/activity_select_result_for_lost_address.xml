@@ -7,28 +7,18 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.andorid_homework02.ListItemMainActivity">
+    tools:context="com.example.myapplication.SelectResultForLostAddressActivity">
 
-
-<LinearLayout
+    <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:weightSum="1">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="新增資料"
-            android:id="@+id/NEW"
-            android:textSize="30dp" />
-
         <ListView android:id="@+id/lv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
     </LinearLayout>
-
 </RelativeLayout>
-

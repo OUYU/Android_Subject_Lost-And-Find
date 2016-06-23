@@ -22,6 +22,8 @@ public class SystemIndexActivity extends AppCompatActivity {
     private Button Pair;
     private Button Recording;
 
+    String USERNAME;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +31,7 @@ public class SystemIndexActivity extends AppCompatActivity {
 
         Bundle params = getIntent().getExtras();
         if (params != null) {
-            String USERNAME = params.getString("USERNAME");
+            USERNAME = params.getString("USERNAME");
             if (USERNAME != null) {
                 Toast t = Toast.makeText(SystemIndexActivity.this, USERNAME + "，Hello！", Toast.LENGTH_SHORT);
                 t.show();
@@ -44,9 +46,53 @@ public class SystemIndexActivity extends AppCompatActivity {
             {
                 Intent Intent = new Intent();
                 Intent.setClass(SystemIndexActivity.this, LostThingActivity.class);
+                Intent.putExtra("USERNAME", USERNAME);
                 startActivity(Intent);
+                SystemIndexActivity.this.finish();
             }
         });
+
+        PickUpItem = (Button)findViewById(R.id.button2);
+        PickUpItem.setOnClickListener(new Button.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent Intent = new Intent();
+                Intent.setClass(SystemIndexActivity.this, PickedThingActivity.class);
+                Intent.putExtra("USERNAME", USERNAME);
+                startActivity(Intent);
+                SystemIndexActivity.this.finish();
+            }
+        });
+        WhoLose = (Button)findViewById(R.id.button3);
+        WhoLose.setOnClickListener(new Button.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent Intent = new Intent();
+                Intent.setClass(SystemIndexActivity.this,LostThingMenuActivity.class);
+                Intent.putExtra("USERNAME", USERNAME);
+                startActivity(Intent);
+                SystemIndexActivity.this.finish();
+            }
+        });
+
+        WhoPickUp = (Button)findViewById(R.id.button4);
+        WhoPickUp.setOnClickListener(new Button.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent Intent = new Intent();
+                Intent.setClass(SystemIndexActivity.this,PickedThingMenuActivity.class);
+                Intent.putExtra("USERNAME", USERNAME);
+                startActivity(Intent);
+                SystemIndexActivity.this.finish();
+            }
+        });
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -63,7 +109,13 @@ public class SystemIndexActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if(id == R.id.action_Index)
+        {
+            Intent Intent = new Intent();
+            Intent.setClass(this, MainActivity.class);
+            startActivity(Intent);
+        }
+        else if (id == R.id.action_settings) {
             return true;
         }
         else if(id == R.id.action_about)
@@ -88,7 +140,6 @@ public class SystemIndexActivity extends AppCompatActivity {
         {
 
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

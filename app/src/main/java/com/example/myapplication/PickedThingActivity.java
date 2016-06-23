@@ -1,12 +1,8 @@
 package com.example.myapplication;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,52 +12,52 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class LostThingActivity extends AppCompatActivity {
+public class PickedThingActivity extends AppCompatActivity {
 
-    private Button NewLostThing;
+    private Button NewPickedThing;
+
+    PickedThingDataModel[] data = new PickedThingDataModel[5];
 
     ListView lv;
 
     String USERNAME;
-    ArrayList<LostThingDataModel> LostList = new ArrayList<LostThingDataModel>();
+    ArrayList<LostThingDataModel> PickedList = new ArrayList<LostThingDataModel>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lost_thing);
+        setContentView(R.layout.activity_picked_thing);
 
         Bundle params = getIntent().getExtras();
         if (params != null) {
             USERNAME = params.getString("USERNAME");
         }
 
-        NewLostThing = (Button)findViewById(R.id.NEW);
-        NewLostThing.setOnClickListener(new Button.OnClickListener()
-        {
+        NewPickedThing = (Button)findViewById(R.id.NEW);
+        NewPickedThing.setOnClickListener(new Button.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Intent Intent = new Intent();
-                Intent.setClass(LostThingActivity.this, LostThingDatainputActivity.class);
+                Intent.setClass(PickedThingActivity.this, PickedThingDatainputActivity.class);
                 Intent.putExtra("USERNAME", USERNAME);
                 startActivity(Intent);
-                LostThingActivity.this.finish();
+                PickedThingActivity.this.finish();
             }
         });
 
         User_DB UserData = new User_DB(this);
-        LostList = UserData.SearchUserLostThingData(USERNAME);
-        final AlbumArrayAdapter adapter = new AlbumArrayAdapter(this, LostList);
+        PickedList = UserData.SearchUserPickedThingData(USERNAME);
+        final AlbumArrayAdapter adapter = new AlbumArrayAdapter(this, PickedList);
         AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent Intent = new Intent();
-                Intent.setClass(LostThingActivity.this, ItemDataActivity.class);
+                Intent.setClass(PickedThingActivity.this, ItemDataForPickedActivity.class);
                 LostThingDataModel Data = adapter.getItem(position);
                 Intent.putExtra("USERNAME", USERNAME);
                 Intent.putExtra("ID", String.valueOf(Data.id));
                 startActivity(Intent);
-                LostThingActivity.this.finish();
+                PickedThingActivity.this.finish();
             }
         };
         lv = (ListView)findViewById(R.id.lv);
@@ -75,10 +71,10 @@ public class LostThingActivity extends AppCompatActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK )
         {
             Intent Intent = new Intent();
-            Intent.setClass(LostThingActivity.this, SystemIndexActivity.class);
+            Intent.setClass(PickedThingActivity.this, SystemIndexActivity.class);
             Intent.putExtra("USERNAME", USERNAME);
             startActivity(Intent);
-            LostThingActivity.this.finish();
+            PickedThingActivity.this.finish();
         }
         return false;
     }

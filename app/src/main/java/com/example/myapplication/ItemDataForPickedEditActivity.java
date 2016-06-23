@@ -1,30 +1,17 @@
 package com.example.myapplication;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.Loader;
-import android.database.Cursor;
-
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.Calendar;
 
-
-/**
- * A login screen that offers login via email/password.
- */
-public class LostThingDatainputActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class ItemDataForPickedEditActivity extends AppCompatActivity {
 
     Calendar c = Calendar.getInstance();
 
@@ -39,65 +26,46 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
     private EditText WhenLose;
     private EditText Connection;
 
+    private Button submit;
+    private Button cancel;
+
+    String id;
     String USERNAME;
 
-    // button
-    private Button submit;
-    private Button dateSelect;
+    int ItemID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lost_thing_datainput);
+        setContentView(R.layout.activity_item_data_for_picked_edit);
 
-        Bundle params = getIntent().getExtras();
-        if (params != null) {
-            USERNAME = params.getString("USERNAME");
-        }
-
-        // Set up the login form.
         WhatLose = (EditText) findViewById(R.id.WhatLose);
         WhereLose = (EditText) findViewById(R.id.WhereLose);
         WhenLose = (EditText) findViewById(R.id.WhenLose);
         Connection = (EditText) findViewById(R.id.Connection);
 
-        submit = (Button)findViewById(R.id.LostThingDataSubmit);
-        submit.setOnClickListener(new OnClickListener() {
+        Bundle params = getIntent().getExtras();
+        if (params != null) {
+            id = params.getString("ID");
+            USERNAME = params.getString("USERNAME");
+            ItemID = Integer.valueOf(id);
+            User_DB UserData = new User_DB(this);
+            LostThingDataModel Data = UserData.SearchUserPickedThingDataItem(ItemID);
+
+            WhatLose.setText(Data.name);
+            WhereLose.setText(Data.address);
+            WhenLose.setText(Data.date);
+            Connection.setText(Data.phone);
+        }
+
+        submit = (Button)findViewById(R.id.button1);
+        submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
-
-        dateSelect = (Button)findViewById(R.id.DateSelect);
-        dateSelect.setOnClickListener(new OnClickListener() {
-
-            DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
-
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear,int dayOfMonth) {
-
-                    int cday = dayOfMonth;
-                    int cmonth = monthOfYear + 1;
-                    int cyear = year;
-
-                    WhenLose.setText(cmonth + "/" + cday + "/" + cyear);
-                }
-            };
-
-            @Override
-            public void onClick(View view) {
-                new DatePickerDialog(LostThingDatainputActivity.this, d, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
-
     }
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
     private void attemptLogin() {
 
         // Reset errors.
@@ -270,43 +238,26 @@ public class LostThingDatainputActivity extends AppCompatActivity implements Loa
         if(count == 4)
         {
             Intent Intent = new Intent();
-            Intent.setClass(LostThingDatainputActivity.this, LostThingActivity.class);
-            User_DB UserData = new User_DB(LostThingDatainputActivity.this);
-            UserData.AddLostThing(USERNAME, ITEM, ADDRESS, DATE, PHONE);
+            Intent.setClass(ItemDataForPickedEditActivity.this, PickedThingActivity.class);
+            User_DB UserData = new User_DB(ItemDataForPickedEditActivity.this);
+            UserData.EditPickedThing(ItemID, USERNAME, ITEM, ADDRESS, DATE, PHONE);
             Intent.putExtra("USERNAME", USERNAME);
             startActivity(Intent);
-            LostThingDatainputActivity.this.finish();
+            ItemDataForPickedEditActivity.this.finish();
         }
-
     }
 
-    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
         if (keyCode == KeyEvent.KEYCODE_BACK )
         {
             Intent Intent = new Intent();
-            Intent.setClass(LostThingDatainputActivity.this, LostThingActivity.class);
+            Intent.setClass(ItemDataForPickedEditActivity.this, ItemDataForPickedActivity.class);
+            Intent.putExtra("ID", id);
             Intent.putExtra("USERNAME", USERNAME);
             startActivity(Intent);
-            LostThingDatainputActivity.this.finish();
+            ItemDataForPickedEditActivity.this.finish();
         }
         return false;
     }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
 }
-

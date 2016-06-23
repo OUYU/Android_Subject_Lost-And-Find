@@ -43,7 +43,6 @@ public class SelectResultForPickedThingActivity extends FragmentActivity {
 
                 SelectData.setError(null);
 
-                // Store values at the time of the login attempt.
                 SELECTDATA = SelectData.getText().toString();
 
                 Intent Intent = new Intent();

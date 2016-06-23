@@ -46,4 +46,5 @@ public class SelectResultForPickedAddressActivity extends Fragment {
         lv.setOnItemClickListener(itemListener);
         lv.setAdapter(adapter);
     }
+
 }
